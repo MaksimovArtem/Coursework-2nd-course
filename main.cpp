@@ -44,18 +44,6 @@ int main()
 	int random_for_1_str = rand() % N + 1;
 	player_1_frequencies[random_for_1_str] = 1;
 
-
-	/*
-	//////////////////////////db
-	std::cout << "Frequencies of the 1st player: " << std::flush;
-	for (int i = 0; i < N; i++)
-	{
-		std::cout << player_1_frequencies[i] << " " << std::flush;
-	}
-	std::cout << std::endl;
-	////////////////////////////
-	*/
-
 	int  last_strategy_of_player_1 = random_for_1_str;
 	mixed_strategies_1[random_for_1_str - 1] = 1;
 
@@ -66,6 +54,7 @@ int main()
 	double E = 1e-6;//1st variant
 	double price_on_the_last_turn = 0;
 	double price_of_the_game = INT_MAX;
+	
 	//while (minimum_top_rating - maximum_lower_rating > 2*E)   //min - max <= 2E
 	while(abs(price_on_the_last_turn - price_of_the_game) >= E)
 	{
@@ -81,17 +70,6 @@ int main()
 		{
 			searching_min_for_player_2[j] += matrix[ last_strategy_of_player_1-1][j];
 		}
-
-
-		std::cout << "Gain of the 2nd player: " << std::flush;
-		/////////////////////////////db
-		for (int j = 0; j < M; j++)
-		{
-			std::cout << searching_min_for_player_2[j] << " " << std::flush;
-		}
-		std::cout << std::endl;
-		////////////////////////////////
-
 
 		for (int j = 0; j < M; j++)
 		{
@@ -116,17 +94,6 @@ int main()
 			searching_max_for_player_1[i] += matrix[i][ last_strategy_of_player_2-1];
 		}
 
-
-		std::cout << "Gain of the 1st player: " << std::flush;
-		/////////////////////////////db
-		for (int i = 0; i < N; i++)
-		{
-			std::cout << searching_max_for_player_1[i] << " " << std::flush;
-		}
-		std::cout << std::endl;
-		////////////////////////////////
-		
-
 		for (int i = 0; i < N; i++)
 		{
 			if (searching_max_for_player_1[i] == *std::max_element(searching_max_for_player_1, searching_max_for_player_1 + N))
@@ -146,7 +113,6 @@ int main()
 
 
 		price_of_the_game = (lower_rating + top_rating) / 2;
-		//price_on_the_last_turn = price_of_the_game;
 		std::cout << "The lower rating is : " <<  lower_rating <<
 			"; Top rating is: " << top_rating << "; Price of the game: " << price_of_the_game << std::endl;
 
