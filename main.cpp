@@ -32,7 +32,7 @@ int main()
 
 	//1st turn
 	int game_turn = 1;
-	int random_for_1_str = 2;// rand() % N + 1;
+	int random_for_1_str = 1;// rand() % N + 1;
 	
 
 	int  last_strategy_of_player_1 = random_for_1_str;
@@ -45,7 +45,8 @@ int main()
 	double E = 1e-3;//1st variant
 	double price_on_the_last_turn = 0;
 	double price_of_the_game = INT_MAX;
-
+	double  lower_rating = 0;
+	double top_rating = 0;
 	while (minimum_top_rating - maximum_lower_rating >= 2*E)   //min - max <= 2E
 	//while (abs(price_on_the_last_turn - price_of_the_game) >= E)
 	{
@@ -53,7 +54,7 @@ int main()
 		/////////////////////////////
 		if (game_turn == 1)
 		{
-			std::cout << "Player 1 uses " << random_for_1_str << " strategy" << std::endl;
+			//std::cout << "Player 1 uses " << random_for_1_str << " strategy" << std::endl;
 		}
 		///////////////////////////////
 		for (int j = 0; j < M; j++)
@@ -68,11 +69,11 @@ int main()
 			{
 				last_strategy_of_player_2 = j + 1;
 				mixed_strategies_2[j]++;
-				std::cout << "Player 2 uses " << j + 1 << " strategy" << std::endl;////////////////////////////
+				//std::cout << "Player 2 uses " << j + 1 << " strategy" << std::endl;////////////////////////////
 				break;
 			}
 		}
-		double  lower_rating = min_el / game_turn;
+		lower_rating = min_el / game_turn;
 		
 		/////////////////////////////////
 		if (lower_rating >  maximum_lower_rating)
@@ -92,12 +93,12 @@ int main()
 			{
 				last_strategy_of_player_1 = i + 1;
 				mixed_strategies_1[i]++;
-				std::cout << "Player 1 uses " << i + 1 << " strategy" << std::endl;
+				//std::cout << "Player 1 uses " << i + 1 << " strategy" << std::endl;
 				break;
 			}
 		}
 
-		double top_rating = max_el / game_turn;
+		top_rating = max_el / game_turn;
 		if (top_rating <  minimum_top_rating)
 		{
 			minimum_top_rating = top_rating;
@@ -105,40 +106,43 @@ int main()
 
 
 		price_of_the_game = (lower_rating + top_rating) / 2;
-		std::cout << "The lower rating is : " << lower_rating <<
-			"; Top rating is: " << top_rating << "; Price of the game: " << price_of_the_game << std::endl;
+	
 
-		std::cout << "Minimum top: " << minimum_top_rating << "; Maximum low: " << maximum_lower_rating << std::endl;
-		std::cout << "Previous price: " << price_on_the_last_turn << "; Price: " << price_of_the_game << std::endl;
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		std::cout << "Possibilities for player1:\n[ " << std::flush;
-		for (int i = 0; i < N; i++)
-		{
-			std::cout << mixed_strategies_1[i] / (game_turn + 1) << " " << std::flush;
-		}
-
-		std::cout << "] Or: [ " << std::flush;
-		for (int i = 0; i < N; i++)
-		{
-			std::cout << mixed_strategies_1[i] << " " << std::flush;
-		}
-		std::cout << "] for " << game_turn + 1 << " iter" << std::endl;
-
-		std::cout << "Possibilities for player2:\n[ " << std::flush;
-		for (int j = 0; j < M; j++)
-		{
-			std::cout << mixed_strategies_2[j] / game_turn << " " << std::flush;
-		}
-		std::cout << "] Or: [ " << std::flush;
-		for (int j = 0; j < M; j++)
-		{
-			std::cout << mixed_strategies_2[j] << " " << std::flush;
-		}
-		std::cout << "] for " << game_turn << " iter\n" << std::endl;
-		++game_turn;
-
-
+		//std::cout << game_turn << std::endl;
+		
+			++game_turn;
 	};
+	std::cout << "The lower rating is : " << lower_rating <<
+		"; Top rating is: " << top_rating << "; Price of the game: " << price_of_the_game << std::endl;
+
+	std::cout << "Minimum top: " << minimum_top_rating << "; Maximum low: " << maximum_lower_rating << std::endl;
+	std::cout << "Previous price: " << price_on_the_last_turn << "; Price: " << price_of_the_game << std::endl;
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	std::cout << "Possibilities for player1:\n[ " << std::flush;
+	for (int i = 0; i < N; i++)
+	{
+		std::cout << mixed_strategies_1[i] / (game_turn + 1) << " " << std::flush;
+	}
+
+	std::cout << "] Or: [ " << std::flush;
+	for (int i = 0; i < N; i++)
+	{
+		std::cout << mixed_strategies_1[i] << " " << std::flush;
+	}
+	std::cout << "] for " << game_turn + 1 << " iter" << std::endl;
+
+	std::cout << "Possibilities for player2:\n[ " << std::flush;
+	for (int j = 0; j < M; j++)
+	{
+		std::cout << mixed_strategies_2[j] / game_turn << " " << std::flush;
+	}
+	std::cout << "] Or: [ " << std::flush;
+	for (int j = 0; j < M; j++)
+	{
+		std::cout << mixed_strategies_2[j] << " " << std::flush;
+	}
+	std::cout << "] for " << game_turn << " iter\n" << std::endl;
+	
 	std::cin.get();
 	return 0;
 }
