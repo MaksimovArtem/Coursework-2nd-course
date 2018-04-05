@@ -3,14 +3,15 @@
 #include <algorithm>
 #include <fstream>
 #include <vector>
+#include <climits>
 ///////////	   |  1  2   3
 ///////////  __|__________
 ///////////  1 |  7  2   9
 ///////////  2 |  2  9   0
 ///////////  3 |  9  0  11
 
-const int N = 8;
-const int M = 8;
+const int N = 10;
+const int M = 10;
 
 int main()
 {
@@ -18,17 +19,18 @@ int main()
 	std::vector<double> all_min_top_rates;
 	std::vector<double> all_max_low_rates;
 
-	srand(time(0)); //for debug
-	double matrix[N][M] = { 1,3,2,2,8,1,5,7,
+	//srand(time(0));
+	/*double matrix[N][M] = { 1,3,2,2,8,1,5,7,
 							9,11,5,1,2,3,0,6,
 							5,7,4,9,15,3,5,4,
 							1,3,10,9,0,7,1,10,
 							6,0,7,2,8,3,2,6,
 							4,2,6,10,5,3,6,4,
 							8,13,1,4,0,6,8,0,
-							5,1,7,3,2,9,9,7};	
-	
-	/*double matrix[N][M] = { 1,3,2,2,8,1,5,7,2,1,
+							5,1,7,3,2,9,9,7};
+*/
+/*
+	double matrix[N][M] = { 1,3,2,2,8,1,5,7,2,1,
 							9,11,5,1,2,3,0,6,3,2,
 							5,7,4,9,15,3,5,4,4,3,
 							1,3,10,9,0,7,1,10,5,4,
@@ -38,7 +40,18 @@ int main()
 							5,1,7,3,2,4,5,7,9,8,
 							6,2,8,4,3,5,6,8,10,9,
 							0,2,6,1,8,5,3,8,11,10};
-	*/
+*/
+
+double matrix[N][M];
+for(int i=0;i<N;i++)
+{
+	for(int j=0;j<M;j++)
+	{
+		matrix[i][j] = rand()%5+2;
+		std::cout<<matrix[i][j]<<"  "<<std::flush;
+	}
+	std::cout<<std::endl;
+}
 	//Init
 	double searching_max_for_player_1[N]{};
 	double mixed_strategies_1[N]{};
@@ -46,14 +59,16 @@ int main()
 	double searching_min_for_player_2[M]{};
 	double mixed_strategies_2[M]{};
 
-	for (int r = 0; r < 10; r++)
+	for (int r = 1; r <= 10; r++)
 	{
 		//1st turn
 		int game_turn = 1;
-		int random_for_1_str = rand() % N + 1;
+		int random_for_1_str = r;
 
-		int random_for_2_str = rand() % N + 1;
+		int random_for_2_str = 10-r+1;
 
+
+		std::cout<<"1st: "<<random_for_1_str<<"; 2nd: "<<random_for_2_str<<"\n"<<std::endl;
 		int  last_strategy_of_player_1 = random_for_1_str;
 		mixed_strategies_1[random_for_1_str - 1] = 1;
 
@@ -68,7 +83,7 @@ int main()
 		double lower_rating = 0;
 		double top_rating = 0;
 		while (minimum_top_rating - maximum_lower_rating >= 2 * E)
-			//while (abs(price_on_the_last_turn - price_of_the_game) >= E)
+		//while (abs(price_on_the_last_turn - price_of_the_game) >= E)
 		{
 			price_on_the_last_turn = price_of_the_game;
 
@@ -180,19 +195,19 @@ int main()
 			searching_min_for_player_2[q] = 0;
 		}
 
-	};
-	
+};
+
 
 	std::ofstream fout_min_top_rates;
 	fout_min_top_rates.open("min_top.txt");
-	
+
 	for (auto& i : all_min_top_rates)
 	{
 		fout_min_top_rates << i << std::endl;
 	}
 
 	fout_min_top_rates.close();
-	
+
 	std::ofstream fout_max_low_rates;
 	fout_max_low_rates.open("max_low.txt");
 
